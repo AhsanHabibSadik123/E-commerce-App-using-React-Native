@@ -3,11 +3,13 @@ import React, { useState } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import Feather from '@expo/vector-icons/Feather'
 import ProductCard from './ProductCard';
+import data from '../data/data.json';
+import ProductDetailsScreen from './ProductDetailsScreen';
 
 const categories = ['Trending Now', 'All', 'New', 'Fashion', 'Mens', 'Womens', 'Accessories', 'Sale'];
 
 
-const Home = () => {
+const Home = ({ onProductPress }) => {
     const [activeCategory, setActiveCategory] = useState('Trending Now');
     return (
         <View style={styles.container}>
@@ -40,15 +42,18 @@ const Home = () => {
                     ))}
                 </ScrollView>
             </View>
-            <View style={{ flexDirection: 'row' }}>
-                <ProductCard />
-                <ProductCard />
-            </View> 
-
-            <View style={{ flexDirection: 'row' }}>
-                <ProductCard />
-                <ProductCard />
-            </View> 
+            {/* Product List with FlatList */}
+            <FlatList
+                data={data.products}
+                keyExtractor={item => item.id.toString()}
+                numColumns={2}
+                renderItem={({ item }) => (
+                    <ProductCard product={item} onPress={() => onProductPress(item)} />
+                )}
+                contentContainerStyle={styles.productList}
+                columnWrapperStyle={styles.productRow}
+                showsVerticalScrollIndicator={false}
+            />
         </View>
     )
 }
@@ -58,7 +63,7 @@ export default Home
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff3f8', // Lighter pinkish background
+        backgroundColor: '#fff3f8',
         paddingTop: 40,
         paddingHorizontal: 0,
     },
@@ -84,7 +89,7 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 22,
         fontWeight: 'bold',
-        color: '#ff69b4',
+        color: '#000',
     },
     searchBarContainer: {
         flexDirection: 'row',
@@ -131,9 +136,8 @@ const styles = StyleSheet.create({
         borderColor: '#ffb6d5',
     },
     categoryItemActive: {
-        backgroundColor: '#ff69b4',
-        borderColor: '#ff69b4',
-        shadowColor: '#ff69b4',
+        backgroundColor: '#E96E6E',
+        borderColor: '#E96E6E',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
@@ -160,5 +164,13 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: 'bold',
+    },
+    productList: {
+        paddingHorizontal: 8,
+        paddingBottom: 16,
+    },
+    productRow: {
+        justifyContent: 'space-between',
+        marginBottom: 16,
     },
 })

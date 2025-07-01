@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 32,
-    color: '#ff69b4',
+    color: '#000',
   },
   input: {
     width: '100%',
@@ -60,12 +60,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#ffb6d5',
+    borderColor: '#E96E6E',
   },
   button: {
     width: '100%',
     height: 48,
-    backgroundColor: '#ff69b4',
+    backgroundColor: '#E96E6E',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   link: {
-    color: '#ff69b4',
+    color: '#000',
     fontSize: 16,
     textDecorationLine: 'underline',
   },

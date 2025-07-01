@@ -9,6 +9,7 @@ import Record from '../Component/Record';
 import Cart from '../Component/Cart';
 import Account from '../Component/Account';
 import Login from '../Component/Login';
+import ProductDetailsScreen from '../Component/ProductDetailsScreen';
 
 const TABS = [
   { name: 'Home', component: Home },
@@ -20,17 +21,28 @@ const TABS = [
 const Index = () => {
   const [activeTab, setActiveTab] = useState('Home');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [cart, setCart] = useState([]);
   const ActiveComponent = TABS.find(tab => tab.name === activeTab).component;
 
   if (!isLoggedIn) {
     return <Login onLogin={() => { setIsLoggedIn(true); setActiveTab('Home'); }} />;
   }
 
+  // Show product details if a product is selected
+  if (selectedProduct) {
+    return <ProductDetailsScreen product={selectedProduct} onBack={() => setSelectedProduct(null)} onAddToCart={(product) => {
+      setCart([...cart, product]);
+      setSelectedProduct(null);
+      setActiveTab('Cart');
+    }} />;
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffe4ec' }}>
       <View style={{ flex: 1, backgroundColor: '#ffe4ec' }}>
         {activeTab === 'Home' ? (
-          <Home onBack={() => setIsLoggedIn(false)} />
+          <Home onBack={() => setIsLoggedIn(false)} onProductPress={setSelectedProduct} />
         ) : activeTab === 'Account' ? (
           <Account onLogout={() => setIsLoggedIn(false)} />
         ) : (

@@ -1,26 +1,25 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import AntDesign from '@expo/vector-icons/AntDesign';
-const ProductCard = () => {
+const ProductCard = ({ product, onPress }) => {
     const [isFavorite, setIsFavorite] = useState(false);
     return (
-        <View style={styles.container}>
-            <Image source={require('../Component/image/shirt3.png')} style={styles.coverImage} />
+        <TouchableOpacity style={styles.container} onPress={onPress} activeOpacity={0.85}>
+            <Image source={{ uri: product.image }} style={styles.coverImage} />
             <View style={styles.textContainer}>
-                <Text style={styles.productName}>Shirt</Text>
-                <Text style={styles.productPrice}>$29.99</Text>
+                <Text style={styles.productName}>{product.title}</Text>
+                <Text style={styles.productPrice}>${product.price.toFixed(2)}</Text>
             </View>
             <TouchableOpacity onPress={() => setIsFavorite(!isFavorite)} style={styles.heartContainer}>
                 {
                     isFavorite ? (
-                        <AntDesign name="heart" size={24} color="red" />
+                        <AntDesign name="heart" size={24} color="#eb4f4f" />
                     ) : (
                         <AntDesign name="hearto" size={24} color="#444444" />
                     )
                 }
-                
             </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
 
     )
 }
@@ -60,7 +59,6 @@ const styles = StyleSheet.create({
     heartContainer: {
         height: 34,
         width: 34,
-        backgroundColor: '#ffffff',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 17,
