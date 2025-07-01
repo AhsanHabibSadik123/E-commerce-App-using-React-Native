@@ -8,6 +8,7 @@ import Home from '../Component/Home';
 import Record from '../Component/Record';
 import Cart from '../Component/Cart';
 import Account from '../Component/Account';
+import Login from '../Component/Login';
 
 const TABS = [
   { name: 'Home', component: Home },
@@ -18,12 +19,23 @@ const TABS = [
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('Home');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const ActiveComponent = TABS.find(tab => tab.name === activeTab).component;
+
+  if (!isLoggedIn) {
+    return <Login onLogin={() => { setIsLoggedIn(true); setActiveTab('Home'); }} />;
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffe4ec' }}>
       <View style={{ flex: 1, backgroundColor: '#ffe4ec' }}>
-        <ActiveComponent />
+        {activeTab === 'Home' ? (
+          <Home onBack={() => setIsLoggedIn(false)} />
+        ) : activeTab === 'Account' ? (
+          <Account onLogout={() => setIsLoggedIn(false)} />
+        ) : (
+          <ActiveComponent />
+        )}
       </View>
       <View style={styles.tabBar}>
         {TABS.map(tab => (
@@ -61,6 +73,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#ccc',
     backgroundColor: '#fff',
+    paddingBottom: 12, // Added padding to the tab bar
   },
   tabButton: {
     flex: 1,

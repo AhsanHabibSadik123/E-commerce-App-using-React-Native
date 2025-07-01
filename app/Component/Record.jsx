@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fffbfc', // pinkish
+    backgroundColor: '#fff3f8', // pinkish
   },
   title: {
     fontSize: 24,

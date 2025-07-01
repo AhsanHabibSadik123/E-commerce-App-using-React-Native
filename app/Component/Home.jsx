@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity, FlatList } from 'react-native'
 import React, { useState } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import Feather from '@expo/vector-icons/Feather'
+import ProductCard from './ProductCard';
 
 const categories = ['Trending Now', 'All', 'New', 'Fashion', 'Mens', 'Womens', 'Accessories', 'Sale'];
+
 
 const Home = () => {
     const [activeCategory, setActiveCategory] = useState('Trending Now');
@@ -38,7 +40,15 @@ const Home = () => {
                     ))}
                 </ScrollView>
             </View>
+            <View style={{ flexDirection: 'row' }}>
+                <ProductCard />
+                <ProductCard />
+            </View> 
 
+            <View style={{ flexDirection: 'row' }}>
+                <ProductCard />
+                <ProductCard />
+            </View> 
         </View>
     )
 }
@@ -48,37 +58,51 @@ export default Home
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fffbfc',
-        paddingTop: 50,
+        backgroundColor: '#fff3f8', // Lighter pinkish background
+        paddingTop: 40,
+        paddingHorizontal: 0,
     },
     header: {
-        height: 60,
+        height: 70,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        backgroundColor: '#fffbfc',
+        alignItems: 'center',
+        backgroundColor: '#fff0f6',
         borderBottomWidth: 1,
-        borderBottomColor: '#eee',
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 10,
-        textAlign: 'center',
+        borderBottomColor: '#ffd6e6',
+        paddingLeft: 24,
+        paddingRight: 24,
+        paddingBottom: 0,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        shadowColor: '#ffb6d5',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08,
+        shadowRadius: 6,
+        elevation: 2,
     },
     headerText: {
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: 'bold',
+        color: '#ff69b4',
     },
     searchBarContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#f0f0f0',
-        borderRadius: 8,
+        backgroundColor: '#fff',
+        borderRadius: 12,
         margin: 20,
-        paddingHorizontal: 10,
-        height: 40,
+        marginBottom: 10,
+        paddingHorizontal: 16,
+        height: 44,
+        shadowColor: '#ffb6d5',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.06,
+        shadowRadius: 3,
+        elevation: 1,
     },
     searchIcon: {
-        marginRight: 8,
+        marginRight: 10,
     },
     searchInput: {
         flex: 1,
@@ -92,21 +116,22 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingBottom: 10,
         paddingTop: 10,
-        height: 60,
+        paddingLeft: 16,
+
+        height: 54,
         alignItems: 'center',
     },
     categoryItem: {
-        backgroundColor: '#dfdcdc',
-        color: '#938f8f', // pink
-        borderRadius: 20,
-        paddingVertical: 6,
-        paddingHorizontal: 12,
+        backgroundColor: '#f7e6f7',
+        borderRadius: 18,
+        paddingVertical: 7,
+        paddingHorizontal: 16,
         marginRight: 8,
         borderWidth: 1,
         borderColor: '#ffb6d5',
     },
     categoryItemActive: {
-        backgroundColor: '#f99dc4',
+        backgroundColor: '#ff69b4',
         borderColor: '#ff69b4',
         shadowColor: '#ff69b4',
         shadowOffset: { width: 0, height: 2 },
@@ -116,9 +141,8 @@ const styles = StyleSheet.create({
     },
     categoryText: {
         color: '#888',
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: '600',
-        color: '#222',
         backgroundColor: 'transparent',
     },
     categoryTextActive: {
