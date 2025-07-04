@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 
-const Login = ({ onLogin }) => {
+const Login = ({ onLogin, onRegister }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -36,6 +36,8 @@ const Login = ({ onLogin }) => {
 };
 
 export default Login;
+
+// ...styles remain unchanged...
 
 const styles = StyleSheet.create({
   container: {

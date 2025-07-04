@@ -1,16 +1,35 @@
 import { StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import Feather from '@expo/vector-icons/Feather'
 import ProductCard from './ProductCard';
-import data from '../data/data.json';
-import ProductDetailsScreen from './ProductDetailsScreen';
+import data from '../data/Data.json';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const categories = ['Trending Now', 'All', 'New', 'Fashion', 'Mens', 'Womens', 'Accessories', 'Sale'];
 
-
 const Home = ({ onProductPress }) => {
     const [activeCategory, setActiveCategory] = useState('Trending Now');
+    const [favorites, setFavorites] = useState([]);
+
+    // Load favorites from AsyncStorage on mount
+    useEffect(() => {
+        AsyncStorage.getItem('favorites').then(data => {
+            if (data) setFavorites(JSON.parse(data));
+        });
+    }, []);
+
+    // Save favorites to AsyncStorage when they change
+    useEffect(() => {
+        AsyncStorage.setItem('favorites', JSON.stringify(favorites));
+    }, [favorites]);
+
+    const toggleFavorite = (id) => {
+        setFavorites(favs =>
+            favs.includes(id) ? favs.filter(f => f !== id) : [...favs, id]
+        );
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -48,7 +67,12 @@ const Home = ({ onProductPress }) => {
                 keyExtractor={item => item.id.toString()}
                 numColumns={2}
                 renderItem={({ item }) => (
-                    <ProductCard product={item} onPress={() => onProductPress(item)} />
+                    <ProductCard
+                        product={item}
+                        onPress={() => onProductPress(item)}
+                        isFavorite={favorites.includes(item.id)}
+                        onToggleFavorite={() => toggleFavorite(item.id)}
+                    />
                 )}
                 contentContainerStyle={styles.productList}
                 columnWrapperStyle={styles.productRow}

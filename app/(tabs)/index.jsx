@@ -23,6 +23,7 @@ const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cart, setCart] = useState([]);
+  const [lastViewedProduct, setLastViewedProduct] = useState(null);
   const ActiveComponent = TABS.find(tab => tab.name === activeTab).component;
 
   if (!isLoggedIn) {
@@ -31,8 +32,19 @@ const Index = () => {
 
   // Show product details if a product is selected
   if (selectedProduct) {
-    return <ProductDetailsScreen product={selectedProduct} onBack={() => setSelectedProduct(null)} onAddToCart={(product) => {
-      setCart([...cart, product]);
+    return <ProductDetailsScreen product={selectedProduct} onBack={() => {
+      setSelectedProduct(null);
+      setActiveTab('Home');
+    }} onAddToCart={(product, selectedSize, selectedColor) => {
+      setCart([
+        ...cart,
+        {
+          ...product,
+          selectedSize,
+          selectedColor,
+        },
+      ]);
+      setLastViewedProduct(product);
       setSelectedProduct(null);
       setActiveTab('Cart');
     }} />;
@@ -42,9 +54,20 @@ const Index = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffe4ec' }}>
       <View style={{ flex: 1, backgroundColor: '#ffe4ec' }}>
         {activeTab === 'Home' ? (
-          <Home onBack={() => setIsLoggedIn(false)} onProductPress={setSelectedProduct} />
+          <Home onBack={() => setIsLoggedIn(false)} onProductPress={product => {
+            setSelectedProduct(product);
+            setLastViewedProduct(product);
+          }} />
         ) : activeTab === 'Account' ? (
           <Account onLogout={() => setIsLoggedIn(false)} />
+        ) : activeTab === 'Cart' ? (
+          <Cart onBack={() => {
+            if (lastViewedProduct) {
+              setSelectedProduct(lastViewedProduct);
+            }
+          }} cart={cart} onDeleteItem={idx => {
+            setCart(cart.filter((_, i) => i !== idx));
+          }} />
         ) : (
           <ActiveComponent />
         )}

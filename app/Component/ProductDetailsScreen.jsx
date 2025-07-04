@@ -16,10 +16,10 @@ const ProductDetailsScreen = ({ product, onBack, onAddToCart }) => {
                     <AntDesign name="arrowleft" size={24} color="white" />
                 </TouchableOpacity>
             </View>
-            <View>
+            <View style={styles.productImage}>
                 <Image source={{ uri: product.image }} style={styles.image} />
             </View>
-            <View style={styles.productDetails}>
+            <View style={styles.productDetailsCard}>
                 <Text style={styles.title}>{product.title}</Text>
                 <Text style={styles.price}>${product.price.toFixed(2)}</Text>
             </View>
@@ -32,8 +32,9 @@ const ProductDetailsScreen = ({ product, onBack, onAddToCart }) => {
                                 key={size}
                                 style={[styles.sizeCircle, selectedSize === size && styles.sizeCircleActive]}
                                 onPress={() => setSelectedSize(size)}
+                                activeOpacity={0.7}
                             >
-                                <Text style={{ fontSize: 16, color: selectedSize === size ? '#fff' : '#000', fontWeight: selectedSize === size ? 'bold' : 'normal' }}>{size}</Text>
+                                <Text style={{ fontSize: 16, color: selectedSize === size ? '#fff' : '#444', fontWeight: selectedSize === size ? 'bold' : '600' }}>{size}</Text>
                             </TouchableOpacity>
                         ))
                     }
@@ -51,12 +52,13 @@ const ProductDetailsScreen = ({ product, onBack, onAddToCart }) => {
                                 selectedColor === color && styles.colorCircleActive
                             ]}
                             onPress={() => setSelectedColor(color)}
+                            activeOpacity={0.7}
                         />
                     ))}
                 </View>
             </View>
             <View style={styles.addCartContainer}>
-                <TouchableOpacity style={styles.addCartButton} onPress={() => onAddToCart(product)}>
+                <TouchableOpacity style={styles.addCartButton} onPress={() => onAddToCart(product, selectedSize, selectedColor)} activeOpacity={0.85}>
                     <Text style={styles.addCartText}>Add To Cart</Text>
                 </TouchableOpacity>
             </View>
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
 
     },
-    productDetails: {
+    productDetailsCard: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginHorizontal: 10,
